@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<title>{% block page_title %}{% endblock %}</title>
+    {% block meta %}{% endblock %}
+	{% include '_include/head.html' %}
+	{# CSS page #}
+    {% block page_css %}{% endblock %}
+    {# JS page #}
+    {% block page_js %}{% endblock %}
+</head>
+
+<body>
+    {# Please DO NOT change the id below #}
+    <div id="main">
+        {% block page_content %}{% endblock %}
+    </div>
+
+    {% include '_include/footer.html' %}
+    {% include '_include/footjs.html' %}
+</body>
+
+</html>

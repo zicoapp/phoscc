@@ -1,0 +1,61 @@
+{% extends "_include/base.html" %}
+
+{% block page_title %}Search{% endblock %}
+{% block page_css %}
+	<link rel="stylesheet" href="/pages/site/search/search.css"/>
+	<link rel="stylesheet" href="/static/css/libs/transitions.css"/>
+{% endblock %}
+{% block page_js %}
+	<script src="/static/js/libs/jquery.collagePlus.min.js"></script>
+    <script src="/static/js/libs/jquery.removeWhitespace.min.js"></script>
+    <script src="/static/js/libs/jquery.collageCaption.min.js"></script>
+    <script src="/pages/site/search/search.js"></script>
+{% endblock %}
+
+{% block page_content %}
+	<nav>
+		<div class="nav-wrapper">
+			
+			<a href="/" class="logo"></a>
+			<div id="nav-search" class="search-box">
+				<form class="search_ix " action="/search" method="get">
+					<div class="search-input-container">
+						<input id="search" name="keyword" value="" placeholder="搜索图片" data-autofocus="">
+						<i class="material-icons">search</i>
+					</div>
+				</form>
+			</div>
+			<ul class="right hide-on-med-and-down">
+		        <li><a href="collapsible.html"><i class="material-icons">queue</i></a></li>
+		        <li><a href="sass.html"><i class="material-icons">bookmark_border</i></a></li>
+		        <li>
+		        	<a href="mobile.html">
+		        		<img class="avatar circle" src="http://materializecss.com/images/yuna.jpg"/>
+		        	</a>
+		        </li>
+		    </ul>
+		</div>
+	</nav>
+    <div class="container search-results">
+	    <section class="Collage effect-parent">
+	        {% for photo in photos %}
+	        <div class="Image_Wrapper">
+	            <a href="{{ photo.get('url') }}" target="_blank">
+	                <img class="" src="{{ photo.get('url') }}?imageView2/2/w/500/interlace/1"/>
+	                <div class="photo-overlay-mask"></div>
+	            </a>
+	            <div class="photo-overlay clearfix">
+	            	<div class="photo-overlay_source">
+	            		<a href="">Source</a>
+	            	</div>
+	            	<div class="photo-overlay_action">
+	            		<a id="download" href="" class="">
+	            			<i class="material-icons">file_download</i>
+	            		</a>
+	            	</div>
+	            </div>
+        	</div>
+	        {% endfor %}
+	    </ul>
+    </div>
+{% endblock %}

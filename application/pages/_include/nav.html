@@ -1,0 +1,11 @@
+{# Flash message #}
+{% with message = get_flashed_messages()[0] %}
+    {% if message %}
+        <div class="alert alert-info flash-message">{{ message }}</div>
+    {% endif %}
+{% endwith %}
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+    </div>
+</nav>

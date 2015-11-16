@@ -1,0 +1,33 @@
+{% extends "_include/index.html" %}
+
+{% block page_title %}Yuntu{% endblock %}
+{% block page_js %}
+	<script src="/pages/site/index/index.js"></script>
+{% endblock %}
+{% block page_css %}
+	<link rel="stylesheet" href="/pages/site/index/index.css"/>
+{% endblock %}
+
+{% block page_content %}
+	<figure class="fig cover" style="background-image: url(http://s.cn.bing.net/az/hprichbg/rb/EpupaFalls_ZH-CN11219086568_1920x1080.jpg)"></figure>
+	<div class="mask"></div>
+	<nav>
+		<a href="#" class="avatar_wrapper right">
+			<img class="avatar circle" src="http://materializecss.com/images/yuna.jpg"/>
+		</a>
+	</nav>
+	<div class="container">
+		<div id="sbox" class="search-box">
+			<div class="search-logo">
+				<img src="/static/image/logo.png" width="272px" height="92px">
+			</div>
+			<div>
+				<form class="search_ix " action="/search" method="get">
+					<div class="search-input-container">
+							<input id="search" name="keyword" value="" placeholder="搜索图片" data-autofocus="">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
