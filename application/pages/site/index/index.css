@@ -1,0 +1,80 @@
+.fig {
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+.cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0;
+}
+nav {
+  z-index: 1;
+  position: relative;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+nav .avatar_wrapper {
+  margin-right: 32px;
+}
+#sbox {
+  position: relative;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  margin-top: 140px;
+  max-width: 672px;
+}
+@media screen and (min-width: 872px) {
+  #sbox {
+    width: 670px;
+  }
+}
+#sbox input#search {
+  display: block;
+  font-size: 16px;
+  font-weight: 300;
+  width: 100%;
+  height: 45px;
+  padding: 0 45px 2px 15px;
+  border: 0;
+  border-radius: 4px;
+}
+#sbox .search-wrapper {
+  margin: 0 12px;
+  -webkit-transition: margin .25s ease;
+  -moz-transition: margin .25s ease;
+  -o-transition: margin .25s ease;
+  -ms-transition: margin .25s ease;
+  transition: margin .25s ease;
+}
+.search-logo {
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+.ui-autocomplete {
+  color: red !important;
+}
+.ui-widget-content .ui-state-focus {
+  color: red;
+}
+@media screen and (min-width: 872px) {
+  #sbox {
+    width: 670px;
+  }
+}

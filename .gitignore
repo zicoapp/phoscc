@@ -10,9 +10,6 @@ package.json
 uploads/avatars/*
 !uploads/avatars/default.png
 node_modules/
-application/pages/**/*.css
-application/static/css/**/*.css
-!application/static/css/libs/*.css
 application/static/output/
 .avoscloud/
 cloud.py
