@@ -3,7 +3,7 @@ from flask import render_template, Blueprint, redirect, request, url_for
 from ..forms import SigninForm, SignupForm
 from ..utils.account import signin_user, signout_user
 from ..utils.permissions import VisitorPermission, UserPermission
-from ..models import db, User
+from leancloud import User, LeanCloudError
 
 bp = Blueprint('account', __name__)
 
@@ -14,7 +14,6 @@ def signin():
     """Signin"""
     form = SigninForm()
     if form.validate_on_submit():
-        signin_user(form.user)
         return redirect(url_for('site.index'))
     return render_template('account/signin/signin.html', form=form)
 
@@ -27,10 +26,12 @@ def signup():
     if form.validate_on_submit():
         params = form.data.copy()
         params.pop('repassword')
-        user = User(**params)
-        db.session.add(user)
-        db.session.commit()
-        signin_user(user)
+        user = User()
+        user.set("username", params['name'])
+        user.set("password", params['password'])
+        user.set("email", params['email'])
+        user.sign_up()
+        User().login(user.username, user.password)
         return redirect(url_for('site.index'))
     return render_template('account/signup/signup.html', form=form)
 

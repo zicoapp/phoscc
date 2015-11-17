@@ -1,12 +1,13 @@
 # coding: utf-8
 from flask import session
-from ..models import User
+from leancloud import User
 
 
-def signin_user(user, permenent=True):
+def signin_user(uname, passwd):
     """Sign in user."""
-    session.permanent = permenent
-    session['user_id'] = user.id
+    User().login(uname, passwd)
+    # session.permanent = permenent
+    # session['user_id'] = user.id
 
 
 def signout_user():

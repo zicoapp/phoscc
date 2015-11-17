@@ -7,7 +7,7 @@
 
 jQuery(document).ready(function() {
     jQuery(".collage").justifiedGallery({
-        rowHeight: 200,
+        rowHeight: 240,
         fixedHeight: false,
         maxRowHeight: '120%',
         margins: 7,

@@ -2,7 +2,7 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo
-from ..models import User
+from leancloud import User, Query, LeanCloudError
 
 
 class SigninForm(Form):
@@ -17,18 +17,18 @@ class SigninForm(Form):
                              validators=[DataRequired("Password shouldn't be empty.")])
 
     def validate_email(self, field):
-        user = User.query.filter(User.email == self.email.data).first()
+        user = Query(User).equal_to('email', self.email.data).find()
         if not user:
             raise ValueError("Account doesn't exist.")
 
     def validate_password(self, field):
         if self.email.data:
-            user = User.query.filter(User.email == self.email.data).first()
-            if not user or not user.check_password(self.password.data):
-                raise ValueError('Password is not correct.')
-            else:
+            try:
+                user = User()
+                user.login(self.email.data, self.password.data)
                 self.user = user
-
+            except LeanCloudError:
+                raise ValueError('Password is not correct.')
 
 class SignupForm(Form):
     """Form for signin"""
@@ -51,11 +51,13 @@ class SignupForm(Form):
                                ])
 
     def validate_name(self, field):
-        user = User.query.filter(User.name == self.name.data).first()
+        user = Query(User).equal_to('username', self.name.data).find()
+        # user = User.query.filter(User.name == self.name.data).first()
         if user:
             raise ValueError('This username already exists.')
 
     def validate_email(self, field):
-        user = User.query.filter(User.email == self.email.data).first()
+        user = Query(User).equal_to('email', self.email.data).find()
+        # user = User.query.filter(User.email == self.email.data).first()
         if user:
             raise ValueError('This email already exists.')
