@@ -64,12 +64,12 @@ nav .nav-wrapper .iconfont {
 }
 nav .nav-wrapper .nav-menu {
   margin-right: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 nav .nav-wrapper .nav-menu .icon-navmenu {
   font-size: 18px;
-  color: white;
+  color: #929BA4;
   width: 32px;
   height: 32px;
   line-height: 32px;
@@ -109,8 +109,8 @@ nav .nav-wrapper .nav-search .search_ix {
 }
 nav .nav-wrapper .nav-search .search-input-container {
   position: relative;
-  height: 36px;
-  line-height: 36px;
+  height: 42px;
+  line-height: 42px;
   background-color: white;
   border: 1px solid rgba(79, 95, 110, 0.23);
   border-radius: 2px;
@@ -121,8 +121,8 @@ nav .nav-wrapper .nav-search .search-input-container {
 nav .nav-wrapper .nav-search .search-input-container input#search {
   font-size: 16px;
   font-weight: 300;
-  height: 36px;
-  line-height: 36px;
+  height: 42px;
+  line-height: 42px;
   width: 100%;
   padding: 0 120px 0 15px;
   background: transparent;
@@ -134,8 +134,8 @@ nav .nav-wrapper .nav-search .search-input-container .search-btn {
   min-width: 48px;
   width: 18%;
   background-color: #4F5F6E;
-  height: 36px;
-  line-height: 36px;
+  height: 42px;
+  line-height: 42px;
   position: absolute;
   top: -1px;
   right: -1px;
@@ -152,8 +152,8 @@ nav .nav-wrapper .nav-search .search-input-container .search-btn:hover {
 nav .nav-wrapper .nav-search .search-input-container .search-btn .icon-search {
   font-size: 18px;
   position: relative;
-  line-height: 36px;
-  height: 36px;
+  line-height: 42px;
+  height: 42px;
 }
 nav .nav-wrapper .avatar-actions {
   margin-right: 24px;
