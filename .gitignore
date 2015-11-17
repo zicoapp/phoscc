@@ -17,4 +17,4 @@ tests/
 gulpfile.js
 npm-debug.log
 *.less
-
+*.DS_Store

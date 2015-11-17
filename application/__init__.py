@@ -45,7 +45,7 @@ def create_app():
     CsrfProtect(app)
 
     if app.debug or app.testing:
-        DebugToolbarExtension(app)
+        # DebugToolbarExtension(app)
 
         # Serve static files
         app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {

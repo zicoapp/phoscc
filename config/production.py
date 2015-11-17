@@ -9,10 +9,10 @@ class ProductionConfig(Config):
     SESSION_COOKIE_NAME = 'yuntu_session'
 
     # Site domain
-    SITE_DOMAIN = "http://www.yuntu.com"
+    SITE_DOMAIN = "http://yuntu.avosapps.com"
 
     # Db config
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@localhost/yuntu"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:imycz@localhost:3307/yuntu"
 
     # Sentry
     SENTRY_DSN = ''
