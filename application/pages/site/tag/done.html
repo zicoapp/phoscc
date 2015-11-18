@@ -1,0 +1,18 @@
+{% extends "_include/base.html" %}
+{% from '_form.html' import vertical_field %}
+
+{% block page_title %}Tag it{% endblock %}
+{% block page_css %}
+	<link rel="stylesheet" href="/pages/site/tag/tag.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/css/libs/bootstrap-tagsinput.css">
+{% endblock %}
+{% block page_js %}
+    <script src="/pages/site/tag/tag.js"></script>
+    <script type="text/javascript" src="/static/js/libs/bootstrap-tagsinput.js"></script>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container main-content">
+    	<p>提交成功，您已累计共享 {{ user_tag_count }} 个标签。非常感谢！</p>
+    </div>
+{% endblock %}

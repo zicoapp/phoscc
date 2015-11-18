@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
         rowHeight: 240,
         fixedHeight: false,
         maxRowHeight: '120%',
-        margins: 7,
+        margins: 8,
         lastRow: 'nojustify',
         captionSettings: {
         	animationDuration: 500, 

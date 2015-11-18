@@ -14,7 +14,7 @@ def signin():
     """Signin"""
     form = SigninForm()
     if form.validate_on_submit():
-        return redirect(url_for('site.index'))
+        return redirect(url_for('site.about'))
     return render_template('account/signin/signin.html', form=form)
 
 
@@ -31,7 +31,7 @@ def signup():
         user.set("password", params['password'])
         user.set("email", params['email'])
         user.sign_up()
-        User().login(user.username, user.password)
+        # User().login(user.username, user.password)
         return redirect(url_for('site.index'))
     return render_template('account/signup/signup.html', form=form)
 

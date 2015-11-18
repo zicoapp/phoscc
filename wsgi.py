@@ -8,11 +8,6 @@ from application.models import db
 import leancloud
 
 app = create_app()
-manager = Manager(app)
-
-# db migrate commands
-migrate = Migrate(app, db)
-manager.add_command('db', MigrateCommand)
 
 APP_ID = os.environ['LC_APP_ID']
 MASTER_KEY = os.environ['LC_APP_MASTER_KEY']

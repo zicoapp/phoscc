@@ -8,7 +8,7 @@ from application.models import db
 import leancloud
 
 # Used by app debug & livereload
-PORT = 5000
+PORT = 3000
 
 app = create_app()
 manager = Manager(app)
@@ -18,7 +18,6 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 engine = leancloud.Engine(app) 
-
 
 @manager.command
 def run():

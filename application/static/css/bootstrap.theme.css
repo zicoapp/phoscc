@@ -1,0 +1,16 @@
+.form-control {
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  -webkit-appearance: none;
+}
+.form-control:focus {
+  border: 1px solid #2F9BFE;
+}
+.btn {
+  border-radius: 2px;
+}
+.btn-padding {
+  padding-left: 40px;
+  padding-right: 40px;
+}

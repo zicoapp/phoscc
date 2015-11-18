@@ -101,6 +101,10 @@
   color: #FFF;
   padding: 20px;
 }
+.search-results {
+  padding-left: 8px;
+  padding-right: 8px;
+}
 .photo-wrapper .caption .photo-overlay-mask {
   position: absolute;
   display: block;
@@ -135,6 +139,9 @@
 .photo-wrapper .caption .meta-right .meta-author a {
   text-decoration: underline;
 }
+.photo-wrapper .caption .meta-right a.meta-download {
+  text-decoration: none;
+}
 .photo-wrapper .caption .iconfont {
   font-size: 24px;
 }
@@ -146,6 +153,7 @@
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
+  cursor: pointer;
 }
 .photo-wrapper .caption .caption-meta a {
   opacity: 0.6;

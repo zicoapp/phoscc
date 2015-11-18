@@ -1,11 +1,12 @@
 # coding: utf-8
-from flask import render_template, Blueprint, jsonify, request
+from flask import render_template, Blueprint, jsonify, request, redirect, url_for, g
 import json
 from random import randint
 from leancloud import Object
-from leancloud import Query
+from leancloud import Query, Relation
 from leancloud import LeanCloudError
-from ..models import Photo
+from ..models import Photo, Tag
+from ..forms import MultiTagForm
 
 bp = Blueprint('site', __name__)
 
@@ -40,3 +41,64 @@ def search(keyword=None):
 def about():
     """About page."""
     return render_template('site/about/about.html')
+
+
+@bp.route('/_next4tag')
+def next4tag():
+    data = {}
+    total = Query.do_cloud_query('select count(*) from Photo')
+    try:
+        query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
+        photo = query.first()
+        data['photo_url'] = photo.get('url')
+        tags_relation = photo.relation('tags')
+        tags_count = tags_relation.query().count()
+        data['tags_count'] = tags_count
+    except LeanCloudError, e:
+        if e.code == 101:  # 服务端对应的 Class 还没创建
+            data = {}
+        else:
+            raise e
+    return jsonify(result=json.dumps(data))
+
+
+@bp.route('/tag', methods=['GET', 'POST'])
+def tag():
+    """Tag Photo"""
+    form = MultiTagForm()
+    if form.validate_on_submit():
+        tags = form.data['tags'].split(',')
+
+        photo = Query(Photo).get(form.data['photoid'])
+        relation = photo.relation('tags')
+
+        for tag in tags:
+            # Obtain existed tag by name
+            results = Query(Tag).equal_to('name', tag).find()
+            if len(results) != 0:
+                avostag = results[0]
+                avostag.increment('count', 1)
+            else:
+                avostag = Tag()
+                avostag.set('name', tag)
+                avostag.save()
+            contributors = avostag.relation('contributors')
+            contributors.add(g.user)
+            avostag.save()
+            # Add relation to photo
+            relation.add(avostag)
+        photo.save()
+
+        query = Relation.reverse_query('Tag', 'contributors', g.user)
+        count = query.count()
+        return render_template('site/tag/done.html', user_tag_count=count)
+    else:
+        total = Query.do_cloud_query('select count(*) from Photo')
+        try:
+            query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
+            item = query.first()
+            return render_template('site/tag/tag.html', photo=item, form=form)
+        except LeanCloudError, e:
+            return redirect(url_for('site.about'))
+
+

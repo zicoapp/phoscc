@@ -11,37 +11,6 @@
 {% endblock %}
 
 {% block page_content %}
-	<div style="background-image: url(http://7xl0mr.com1.z0.glb.clouddn.com/photo/4LrqrPbgO.jpg?imageView2/2/w/500/interlace/1)" class="nav-bar">
-		<div class="nav-mask"></div>
-		<div class="nav-main">
-			<nav>
-				<div class="nav-wrapper">
-					<!-- <a href="/" class="logo"></a> -->
-					<!-- <div class="nav-menu left">
-						<i class="iconfont icon-navmenu"></i>
-					</div> -->
-					<a href="/" class="nav-logo left" style="margin-left: 32px">
-						<img src="/static/image/logo.png"/>
-					</a>
-					<div class="nav-search left">
-						<form class="search_ix" action="/search" method="get">
-							<div class="search-input-container">
-								<input id="search" name="keyword" value="{{ keyword }}" placeholder="搜索图片" data-autofocus="">
-								<div class="search-btn">
-									<i class="iconfont icon-search"></i>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="right avatar-actions">
-						<img class="avatar circle" src="http://materializecss.com/images/yuna.jpg"/>
-					</div>
-				</div>
-			</nav>
-		</div>
-		
-	</div>
-
     <div class="container main-content search-results">
 	    <section class="collage">
 	        {% for photo in photos %}

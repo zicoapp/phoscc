@@ -7,5 +7,56 @@
 
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-menu-collapse" aria-expanded="true">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            <a class="navbar-brand" href="{{ url_for('site.index') }}">
+                <img src="/static/image/logo.png"/>
+            </a>
+        </div>
+
+        <div class="navbar-collapse collapse" id="nav-menu-collapse" aria-expanded="true">
+            <form class="navbar-form navbar-left" role="search" method="get" action="/search">
+                <div class="form-group">
+                    <div class="input-group-sm position-relative">
+                        <input type="text" class="search-content form-control" placeholder="搜索图片" value="" name="q">
+                        <button type="submit" title="搜索" class="btn btn-default btn-sm embed-btn">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li id="nav-index">
+                <a href="{{ url_for('site.index') }}">热门推荐</a>
+            </li>
+            <li id="nav-about">
+                <a href="{{ url_for('site.tag') }}">打标签</a>
+            </li>
+            <!-- <li id="nav-avatar">
+                <img class="avatar circle" src="/static/image/default-avatar.png"/>
+            </li> -->
+            {% if g.user %}
+            <li id="nav-settings">
+                <a href="#">{{ g.user.get('username') }}</a>
+            </li>
+            <li>
+                <a href="{{ url_for('account.signout') }}">退出</a>
+            </li>
+            {% else %}
+            <li id="nav-signin">
+                <a href="{{ url_for('account.signin') }}">登录</a>
+            </li>
+            <li id="nav-signup">
+                <a href="{{ url_for('account.signup') }}">注册</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
     </div>
 </nav>

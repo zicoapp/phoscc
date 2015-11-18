@@ -28,6 +28,4 @@
         $('.flash-message').slideUp('fast');
     }
 
-    $(".button-collapse").sideNav();
-    
 })();
