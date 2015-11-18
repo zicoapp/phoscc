@@ -19,6 +19,7 @@ jQuery(document).ready(function() {
             $photo4tag.load(function(){
             	$(".photo-to-tag").attr("src", photo_url).fadeTo('slow', 1)
             	$('.overlay').addClass('hide');
+                $('#photoid').attr("value", photo.photo_id);
             });
 
             // var $downloadingImage = $("<img>");

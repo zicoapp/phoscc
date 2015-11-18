@@ -36,7 +36,7 @@
                     <div class="panel-body">
                         <form method="post" action="{{ url_for('site.tag') }}" class="tagform">
                             {{ form.csrf_token() }}
-                            <input type="hidden" name="photoid" value="{{ photo.id }}">
+                            <input id="photoid" type="hidden" name="photoid" value="{{ photo.id }}">
                             <div class="form-group clearfix">
                                 <div id="mytaginput">
                                     <input id="tags" name="tags" class="tagsinput-gen" type="text" value="" data-role="tagsinput">

@@ -6,6 +6,7 @@ from leancloud import Object
 from leancloud import Query, Relation
 from leancloud import LeanCloudError
 from ..models import Photo, Tag
+from ..utils.permissions import VisitorPermission, UserPermission
 from ..forms import MultiTagForm
 
 bp = Blueprint('site', __name__)
@@ -32,9 +33,14 @@ def next_cover():
 
 @bp.route('/search')
 def search(keyword=None):
-    keyword = request.args.get('keyword')
-    query = Query(Photo).equal_to("tags", keyword).descending('createdAt')
-    photos = query.find()
+    keyword = request.args.get('q')
+    results = Query(Tag).equal_to('name', keyword).find()
+    if len(results) != 0:
+        tag = results[0]
+        query = Relation.reverse_query('Photo', 'tags', tag)
+        photos = query.find()
+    else:
+        photos = []
     return render_template('site/search/search.html', keyword=keyword, photos=photos)
 
 @bp.route('/about')
@@ -50,6 +56,7 @@ def next4tag():
     try:
         query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
         photo = query.first()
+        data['photo_id'] = photo.id
         data['photo_url'] = photo.get('url')
         tags_relation = photo.relation('tags')
         tags_count = tags_relation.query().count()
@@ -63,6 +70,7 @@ def next4tag():
 
 
 @bp.route('/tag', methods=['GET', 'POST'])
+@UserPermission()
 def tag():
     """Tag Photo"""
     form = MultiTagForm()
