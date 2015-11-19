@@ -125,8 +125,12 @@ body {
   margin-bottom: 5px;
 }
 #user-sign button {
+  width: 100%;
   padding-left: 30px;
   padding-right: 30px;
+}
+#user-sign .divider {
+  margin-top: 20px;
 }
 .form-group label {
   font-weight: normal;

@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import session, abort, flash, redirect, url_for, g
+from flask import session, abort, flash, redirect, url_for, g, request
 from permission import Rule
 from leancloud import User
 
@@ -18,7 +18,8 @@ class UserRule(Rule):
 
     def deny(self):
         flash('Sign in first.')
-        return redirect(url_for('account.signin'))
+        return redirect(url_for('account.signin', next=request.url))
+        
 
 
 class AdminRule(Rule):

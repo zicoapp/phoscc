@@ -7,8 +7,8 @@
 
 {% macro vertical_field(field) %}
     <div class="form-group clearfix">
-        {{ field.label() }}
-    	{{ field(class="form-control", placeholder=field.description, **kwargs) }}
-    	{{ field_errors(field) }}
+        <!-- {{ field.label(class="col-sm-2 control-label") }} -->
+    		{{ field(class="form-control", placeholder=field.description, **kwargs) }}
+    		{{ field_errors(field) }}
     </div>
 {% endmacro %}

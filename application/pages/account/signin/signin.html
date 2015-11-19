@@ -8,17 +8,18 @@
     <link rel="stylesheet" href="/pages/account/signin/signin.css"/>{% endblock %}
 {% block page_content %}
     <div class="container">
-        <div class="row">
+        <div class="">
             <div class="col-sm-4 col-md-offset-4" id="user-sign">
-                <form method="post" action="{{ url_for('account.signin') }}">
+                <form class="form-horizontal" method="post">
                     {{ form.csrf_token() }}
                     {{ vertical_field(form.email) }}
                     {{ vertical_field(form.password) }}
-                    <hr>
                     <div class="form-group">
-                        <div>
-                          <button type="submit" class="btn btn-primary">登录</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary">登录</button>
+                    </div>
+                    <div class="form-group">
+                        <hr class="divider">
+                        <p>还没有帐号？<a href="{{ url_for('account.signup') }}">点击注册»</a></p>
                     </div>
                 </form>
             </div>

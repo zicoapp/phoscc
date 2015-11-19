@@ -11,10 +11,12 @@ class SigninForm(Form):
                         validators=[
                             DataRequired("邮箱不能为空."),
                             Email('邮箱格式不正确.')
-                        ])
+                        ],
+                        description="邮箱")
 
     password = PasswordField('密码',
-                             validators=[DataRequired("密码不能为空.")])
+                             validators=[DataRequired("密码不能为空.")],
+                             description='密码')
 
     def validate_email(self, field):
         user = Query(User).equal_to('email', self.email.data).find()
@@ -33,22 +35,26 @@ class SigninForm(Form):
 class SignupForm(Form):
     """Form for signin"""
     name = StringField('用户名',
-                       validators=[DataRequired("用户名不能为空.")])
+                       validators=[DataRequired("用户名不能为空.")],
+                       description="用户名")
 
     email = StringField('邮箱',
                         validators=[
                             DataRequired(message="邮箱不能为空."),
                             Email(message='邮箱格式不正确.')
-                        ])
+                        ],
+                        description="邮箱")
 
     password = PasswordField('密码',
-                             validators=[DataRequired("密码不能为空.")])
+                             validators=[DataRequired("密码不能为空.")],
+                             description="密码")
 
     repassword = PasswordField('密码确认',
                                validators=[
                                    DataRequired("请再次输入密码."),
                                    EqualTo('password', message="密码不匹配.")
-                               ])
+                               ],
+                               description="密码确认")
 
     def validate_name(self, field):
         user = Query(User).equal_to('username', self.name.data).find()

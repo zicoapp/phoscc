@@ -8,8 +8,8 @@ class VisitorPermission(Permission):
 
 
 class UserPermission(Permission):
-    def rule(self):
-        return UserRule()
+	def rule(self):
+		return UserRule()
 
 
 class AdminPermission(Permission):

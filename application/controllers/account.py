@@ -15,7 +15,7 @@ def signin():
     form = SigninForm()
     if form.validate_on_submit():
         signin_user(email=form.data['email'], password=form.data['password'])
-        return redirect(url_for('site.about'))
+        return redirect(request.args.get('next') or url_for('site.index'))
     return render_template('account/signin/signin.html', form=form)
 
 
