@@ -162,6 +162,7 @@ def tagit():
 
 
 @bp.route('/tag', methods=['GET', 'POST'])
+@UserPermission()
 def tag():
     """Tag Photo"""
     form = MultiTagForm()
