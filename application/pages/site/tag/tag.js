@@ -9,6 +9,19 @@ jQuery(document).ready(function() {
 		alert($(".tagsinput-gen").val());
 	});
 
+    function preloadPhotos() {
+        for (i = 0; i < comingPhotos.length; i++) { 
+            item = comingPhotos[i];
+            var $photo4tag = $("<img>");
+            $photo4tag.attr("src", item['url_thumbnail']);
+            $photo4tag.load(function(){
+                console.log(item['url_thumbnail']);
+            });
+        }
+    }
+
+    preloadPhotos();
+
     // 获取下一组随机照片
     function nextPhotoList(switching) {
         $.getJSON('/_next4tag', {}, function(data) {
@@ -16,14 +29,7 @@ jQuery(document).ready(function() {
             comingPhotos = comingPhotos.concat(plist);
             console.log('next group');
             // load photos for later usage
-            for (i = 0; i < comingPhotos.length; i++) { 
-                item = comingPhotos[i];
-                var $photo4tag = $("<img>");
-                $photo4tag.attr("src", item['url_thumbnail']);
-                $photo4tag.load(function(){
-                    console.log(item['url_thumbnail']);
-                });
-            }
+            preloadPhotos();
             if (switching) {
                 nextPhoto();
             }
