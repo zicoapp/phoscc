@@ -70,13 +70,17 @@ def next4tag():
     data = {}
     total = Query.do_cloud_query('select count(*) from Photo')
     try:
-        query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
-        photo = query.first()
-        data['photo_id'] = photo.id
-        data['photo_url'] = photo.get('url')
-        tags_relation = photo.relation('tags')
-        tags_count = tags_relation.query().count()
-        data['tags_count'] = tags_count
+        query = Query(Photo).descending('createdAt').skip(randint(0, total.count)).limit(5)
+        results = query.find()
+
+        jsonresult = json.dumps([o.dump() for o in results])
+
+        return jsonify(result=jsonresult)
+        # data['photo_id'] = photo.id
+        # data['photo_url'] = photo.get('url')
+        # tags_relation = photo.relation('tags')
+        # tags_count = tags_relation.query().count()
+        # data['tags_count'] = tags_count
     except LeanCloudError, e:
         if e.code == 101:  # 服务端对应的 Class 还没创建
             data = {}
@@ -195,11 +199,27 @@ def tag():
     else:
         total = Query.do_cloud_query('select count(*) from Photo')
         try:
-            query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
-            item = query.first()
+            # query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
+            # item = query.first()
+            query = Query(Photo).descending('createdAt').skip(randint(0, total.count)).limit(5)
+            results = query.find()
+
+            # response = {}
+            # photolist = []
+            # for item in results:
+            #     photojson = {}
+            #     photojson['id'] = item.id
+            #     photojson['url'] = item.get('url')
+            #     photolist.append(photojson)
+            # response['photos': photolist]
+
+            jsonresult = json.dumps([o.dump() for o in results])
+
             query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
             count = query.count()
-            return render_template('site/tag/tag.html', photo=item, utagcount=count, form=form)
+
+            return render_template('site/tag/tag.html', current_photo=results[0],
+                coming_photos=jsonresult, utagcount=count, form=form)
         except LeanCloudError, e:
             return redirect(url_for('site.about'))
 

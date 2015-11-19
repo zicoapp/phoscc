@@ -7,6 +7,12 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/libs/bootstrap-tagsinput.css">
 {% endblock %}
 {% block page_js %}
+    <script type="text/javascript">
+      // alert('{{ photolist }}');
+      console.log('{{ coming_photos|safe }}');
+      var comingPhotos = jQuery.parseJSON('{{ coming_photos|safe }}');
+      var current_photo = comingPhotos.shift();
+    </script>
     <script src="/pages/site/tag/tag.js"></script>
     <script type="text/javascript" src="/static/js/libs/bootstrap-tagsinput.js"></script>
 {% endblock %}
@@ -16,7 +22,7 @@
     	<div class="row" id="page-tag">
             <div class="col-md-6">
                 <div class="position-relative">
-                    <img class="photo-to-tag" src="{{ photo.get('url') }}?imageView2/2/w/700/interlace/1"/>
+                    <img class="photo-to-tag" src="{{ current_photo.get('url') }}?imageView2/2/w/700/interlace/1"/>
                     <div class="overlay hide">
                         <div class="spinner">
                           <div class="rect1"></div>
@@ -34,7 +40,7 @@
                         我来打标签<a id="next-photo" class="label-next-photo">换一张</a>
                     </div>
                     <div class="panel-body">
-                        <input id="photoid" type="hidden" name="photoid" value="{{ photo.id }}">
+                        <input id="photoid" type="hidden" name="photoid" value="{{ current_photo.id }}">
                         <div id="mytaginput">
                             <input id="tags" name="tags" class="tagsinput-gen" type="text" value="" data-role="tagsinput">
                             <ul class="list-form-errors text-danger list-unstyled">
