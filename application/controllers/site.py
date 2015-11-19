@@ -5,9 +5,10 @@ from random import randint
 from leancloud import Object, User
 from leancloud import Query, Relation, engine
 from leancloud import LeanCloudError
-from ..models import Photo, Tag
+from ..models import Photo, Tag, PhotoTag
 from ..utils.permissions import VisitorPermission, UserPermission
 from ..forms import MultiTagForm
+from flask import session
 
 bp = Blueprint('site', __name__)
 
@@ -35,10 +36,19 @@ def next_cover():
 def search(keyword=None):
     keyword = request.args.get('q')
     results = Query(Tag).equal_to('name', keyword).find()
+
     if len(results) != 0:
         tag = results[0]
-        query = Relation.reverse_query('Photo', 'tags', tag)
-        photos = query.find()
+        # tag per photo
+        print tag.get('name')
+        ptags = Query(PhotoTag).equal_to("tag", tag).find()
+
+        photos = []
+        for ptag in ptags:
+            # print ptag.get('tag').get('name')
+            plist = Relation.reverse_query('Photo', 'ptags', ptag).find()
+            print len(plist)
+            photos.extend(plist)
     else:
         photos = []
     return render_template('site/search/search.html', keyword=keyword, photos=photos)
@@ -68,9 +78,84 @@ def next4tag():
             raise e
     return jsonify(result=json.dumps(data))
 
+@bp.route('/tagit', methods=['POST'])
+def tagit():
+    tags = request.form['tags'].split(',')
+    photo = Query(Photo).get(request.form['photoid'])
+
+    ptags_relation = photo.relation('ptags')
+
+    for tag in tags:
+        # Check if tag name existed
+        results = Query(Tag).equal_to('name', tag).find()
+        if len(results) != 0:
+            # existed
+            avostag = results[0]
+        else:
+            # not existed
+            # save general tag
+            avostag = Tag()
+            avostag.set('name', tag)
+            avostag.save()
+        
+        contributors = avostag.relation('contributors')
+        contributors.add(g.user)
+        avostag.save()
+
+        ptaglist = ptags_relation.query().equal_to('tag', avostag).find()
+        if len(ptaglist) == 0:
+            # 标签未在该照片标记
+            ptag = PhotoTag()
+            ptag.set('tag', avostag)
+            # 该标签被打在新的照片上
+            avostag.increment('count', 1)
+            avostag.save()
+        else:
+            # 标签已在该照片标记
+            ptag = ptaglist[0]
+            ptag.increment('count', 1)
+
+        ptag.relation('contributors').add(g.user)
+        ptag.save()
+
+        # 给照片加标签
+        ptags_relation.add(ptag)
+
+    photo.save()
+
+    # query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
+    # count = query.count()
+    count = photo.relation('ptags').query().count()
+
+    return json.dumps({'status':'OK', 'count':count, 'photoid': request.form['photoid']});
+
+
+    # relation = photo.relation('tags')
+
+    # for tag in tags:
+    #     # Obtain existed tag by name
+    #     results = Query(Tag).equal_to('name', tag).find()
+    #     if len(results) != 0:
+    #         avostag = results[0]
+    #         avostag.increment('count', 1)
+    #     else:
+    #         avostag = Tag()
+    #         avostag.set('name', tag)
+    #         avostag.save()
+    #     contributors = avostag.relation('contributors')
+    #     contributors.add(g.user)
+    #     avostag.save()
+    #     # Add relation to photo
+    #     relation.add(avostag)
+    # photo.save()
+
+    # query = Relation.reverse_query('Tag', 'contributors', g.user)
+    # count = query.count()
+
+    # return json.dumps({'status':'OK','count':count,'photoid': request.form['photoid']});
+
 
 @bp.route('/tag', methods=['GET', 'POST'])
-@UserPermission()
 def tag():
     """Tag Photo"""
     form = MultiTagForm()
@@ -105,8 +190,7 @@ def tag():
         try:
             query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
             item = query.first()
-            user = engine.current_user
-            return render_template('site/tag/tag.html', photo=item, user=user, form=form)
+            return render_template('site/tag/tag.html', photo=item, form=form)
         except LeanCloudError, e:
             return redirect(url_for('site.about'))
 

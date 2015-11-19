@@ -41,10 +41,11 @@
         rules: {{ rules|safe }},
         method: "{{ request.method }}",
         signin: {% if g.user %}true{% else %}false{% endif %},
-        userId: {% if g.user %}{{ g.user }}{% else %}false{% endif %}
+        userId: {% if g.user %}"{{ g.user.id }}"{% else %}false{% endif %}
     };
 </script>
 {# JS libs #}
 <script src="/static/js/libs/respond.min.js"></script>
 <script src="/static/js/libs/jquery.min.js"></script>
+<script src="/static/js/libs/bootstrap.min.js"></script>
 <script src="/static/js/init.js"></script>

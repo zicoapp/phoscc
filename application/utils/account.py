@@ -2,25 +2,26 @@
 from flask import session
 from leancloud import User
 
-def signin_user(uname, passwd, permenent=True):
+def signin_user(email, password, permenent=True):
     """Sign in user."""
-    user = User().login(uname, passwd)
     session.permanent = True
-    session['user_id'] = user.get_session_token()
+
+    leanuser = User()
+    leanuser.login(email, password)
+    token = leanuser.get_session_token()
+    session['session_token'] = token
+
 
 def signout_user():
     """Sign out user."""
-    session.pop('user_id', None)
+    session.pop('session_token', None)
 
 
 def get_current_user():
     """Get current user."""
-    if not 'user_id' in session:
+    if not 'session_token' in session:
         return None
-    # # user = session
-    # user = User.get_current()
-    # user = User.query.filter(User.id == session['user_id']).first()
-    user = User.become(session['user_id'])
+    user = User.become(session['session_token'])
     if not user:
         signout_user()
         return None

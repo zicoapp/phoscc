@@ -27,5 +27,4 @@
     function hideFlash() {
         $('.flash-message').slideUp('fast');
     }
-
 })();

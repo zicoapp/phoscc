@@ -10,11 +10,16 @@
   float: right;
   cursor: pointer;
 }
-.tagform .submit-tags {
-  margin-top: 20px;
-  position: absolute;
-  bottom: 20px;
-  right: 32px;
+#page-tag .panel-tags #submit-loading {
+  position: relative;
+  width: 25px;
+  height: 20px;
+}
+#page-tag .panel-tags #submit-loading div {
+  width: 4px;
+}
+#mytaginput {
+  margin-bottom: 20px;
 }
 #mytaginput input {
   border: none;
@@ -49,14 +54,10 @@
   #page-tag .panel-tags {
     min-height: auto;
   }
-  .tagform .submit-tags {
-    margin-top: 20px;
-    position: relative;
-    bottom: 0;
-    right: 0;
-  }
-  .tagform .submit-tags .btn-tags {
+  #submit-tags.btn-tags {
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
 .overlay {

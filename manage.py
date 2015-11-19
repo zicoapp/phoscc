@@ -13,9 +13,10 @@ PORT = 3000
 app = create_app()
 manager = Manager(app)
 
-# db migrate commands
-migrate = Migrate(app, db)
-manager.add_command('db', MigrateCommand)
+APP_ID = '165ff646t8z4n3e9ltvo39kx3lu084061isgk4v3z1qkl3xx'
+MASTER_KEY = 'b8ak9txybd6gv5dzhjy6xbztpfk6i691vgvaycsjjc0pcidb'
+
+leancloud.init(APP_ID, master_key=MASTER_KEY)
 
 engine = leancloud.Engine(app) 
 
@@ -52,5 +53,5 @@ def createdb():
     db.create_all()
 
 
-if __name__ == "__main__":
-    manager.run()
+# if __name__ == "__main__":
+#     manager.run()

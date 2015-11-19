@@ -6,32 +6,41 @@
 	<link rel="stylesheet" href="/pages/site/search/search.css"/>
 {% endblock %}
 {% block page_js %}
-    <script src="/static/js/libs/jquery.justifiedGallery.min.js"></script>
-    <script src="/pages/site/search/search.js"></script>
+	{% if photos|length > 0 %}
+    	<script src="/static/js/libs/jquery.justifiedGallery.min.js"></script>
+    	<script src="/pages/site/search/search.js"></script>
+    {% endif %}
 {% endblock %}
 
 {% block page_content %}
     <div class="container main-content search-results">
-	    <section class="collage">
-	        {% for photo in photos %}
-			<div class="photo-wrapper">
-		        <img src="{{ photo.get('url') }}?imageView2/2/w/500/interlace/1"/>
-			    <div class="caption">
-			    	<a class="photo-overlay-mask" href="{{ photo.get('url') }}" target="_blank"></a>
-		    		<div class="caption-meta meta-left">
-		    			<i class="iconfont icon-copyright2"></i>
-		    			<i class="iconfont icon-copyright5"></i>
-		    		</div>
-		    		<div class="caption-meta meta-right">
-		    			<span class="meta-author">
-		    				<span class="meta-author-by">By </span><a href="http://baidu.com">Paul Green</a>
-		    			</span>
-		    			<a class="meta-download" href="{{ photo.get('url') }}?download"><i class="iconfont icon-dload"></i>
-		    			</a>
-		    		</div>
-		        </div>
+    	{% if photos|length > 0 %}
+		    <section class="collage">
+		        {% for photo in photos %}
+				<div class="photo-wrapper">
+			        <img src="{{ photo.get('url') }}?imageView2/2/w/500/interlace/1"/>
+				    <div class="caption">
+				    	<a class="photo-overlay-mask" href="{{ photo.get('url') }}" target="_blank"></a>
+			    		<div class="caption-meta meta-left">
+			    			<i class="iconfont icon-copyright2"></i>
+			    			<i class="iconfont icon-copyright5"></i>
+			    		</div>
+			    		<div class="caption-meta meta-right">
+			    			<span class="meta-author">
+			    				<span class="meta-author-by">By </span><a href="http://baidu.com">Paul Green</a>
+			    			</span>
+			    			<a class="meta-download" href="{{ photo.get('url') }}?download"><i class="iconfont icon-dload"></i>
+			    			</a>
+			    		</div>
+			        </div>
+				</div>
+		        {% endfor %}
+		    </section>
+		{% else %}
+			<div class="center-msg">
+				<p>空空如也，没有找到合适的照片</p>
+				<p><a href="{{ url_for('site.tag') }}">我要给图片贡献标签</a></p>
 			</div>
-	        {% endfor %}
-	    </ul>
+	    {% endif %}
     </div>
 {% endblock %}
