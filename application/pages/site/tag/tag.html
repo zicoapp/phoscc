@@ -34,6 +34,7 @@
                         我来打标签<a id="next-photo" class="label-next-photo">换一张</a>
                     </div>
                     <div class="panel-body">
+                        <p>user: {{ user.id }} {{ user.get('username') }}</p>
                         <form method="post" action="{{ url_for('site.tag') }}" class="tagform">
                             {{ form.csrf_token() }}
                             <input id="photoid" type="hidden" name="photoid" value="{{ photo.id }}">

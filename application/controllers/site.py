@@ -2,8 +2,8 @@
 from flask import render_template, Blueprint, jsonify, request, redirect, url_for, g
 import json
 from random import randint
-from leancloud import Object
-from leancloud import Query, Relation
+from leancloud import Object, User
+from leancloud import Query, Relation, engine
 from leancloud import LeanCloudError
 from ..models import Photo, Tag
 from ..utils.permissions import VisitorPermission, UserPermission
@@ -105,7 +105,8 @@ def tag():
         try:
             query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
             item = query.first()
-            return render_template('site/tag/tag.html', photo=item, form=form)
+            user = engine.current_user
+            return render_template('site/tag/tag.html', photo=item, user=user, form=form)
         except LeanCloudError, e:
             return redirect(url_for('site.about'))
 

@@ -6,7 +6,7 @@ def signin_user(uname, passwd, permenent=True):
     """Sign in user."""
     user = User().login(uname, passwd)
     session.permanent = True
-    session['user_id'] = user
+    session['user_id'] = user.get_session_token()
 
 def signout_user():
     """Sign out user."""
@@ -15,11 +15,12 @@ def signout_user():
 
 def get_current_user():
     """Get current user."""
-    # if not 'user_id' in session:
-    #     return None
+    if not 'user_id' in session:
+        return None
     # # user = session
-    user = User.get_current()
+    # user = User.get_current()
     # user = User.query.filter(User.id == session['user_id']).first()
+    user = User.become(session['user_id'])
     if not user:
         signout_user()
         return None
