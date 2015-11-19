@@ -43,14 +43,6 @@
             <li id="nav-settings">
                 <a href="#">{{ g.user.get('username') }}</a>
             </li>
-           <!--  <li id="nav-avatar">
-                <img class="avatar circle" src="/static/image/default-avatar.png"/>
-                <div class="menu-overflow show-on-pc">
-                    <a href="{{ url_for('account.signout') }}">
-                        <i class="iconfont icon-exit"></i>
-                    </a>
-                </div>
-            </li> -->
             <li class="show-on-mobile">
                 <a href="{{ url_for('account.signout') }}">退出</a>
             </li>

@@ -37,10 +37,11 @@ jQuery(document).ready(function() {
             url: '/tagit',
             data: { "photoid": $('#photoid').val(), "tags": tags },
             type: 'POST',
+            dataType: 'json',
             success: function(response) {
-                $('#tags').tagsinput('removeAll');
+                $('#label-contributes-count').text(response.count);
                 nextphoto();
-                console.log(response);
+                $('#tags').tagsinput('removeAll');
                 $this.click(submittags);
             },
             error: function(error) {

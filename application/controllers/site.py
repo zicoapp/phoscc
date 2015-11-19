@@ -14,7 +14,13 @@ bp = Blueprint('site', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('site/index/index.html')
+    total = Query.do_cloud_query('select count(*) from Photo')
+    try:
+        query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
+        cover = query.first()
+    except LeanCloudError, e:
+        raise e
+    return render_template('site/index/index.html', cover=cover)
 
 @bp.route('/_next_cover')
 def next_cover():
@@ -123,9 +129,9 @@ def tagit():
 
     photo.save()
 
-    # query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
-    # count = query.count()
-    count = photo.relation('ptags').query().count()
+    query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
+    count = query.count()
+    # count = photo.relation('ptags').query().count()
 
     return json.dumps({'status':'OK', 'count':count, 'photoid': request.form['photoid']});
 
@@ -190,8 +196,21 @@ def tag():
         try:
             query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
             item = query.first()
-            return render_template('site/tag/tag.html', photo=item, form=form)
+            query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
+            count = query.count()
+            return render_template('site/tag/tag.html', photo=item, utagcount=count, form=form)
         except LeanCloudError, e:
             return redirect(url_for('site.about'))
 
+@bp.route('/hot')
+def hot():
+    return render_template('site/hot/hot.html')
 
+
+@bp.route('/disclaimer')
+def disclaimer():
+    return render_template('site/static/disclaimer.html')
+
+@bp.route('/wiki')
+def wiki():
+    return render_template('site/static/wiki.html')

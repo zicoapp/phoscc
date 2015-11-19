@@ -9,15 +9,20 @@
 {% endblock %}
 
 {% block page_content %}
-	<figure class="fig cover" style="background-image: url(http://s.cn.bing.net/az/hprichbg/rb/EpupaFalls_ZH-CN11219086568_1920x1080.jpg)"></figure>
+	
+	<div>
+	{% include "_include/index-nav.html" %}
+	</div>
+
+	<figure class="fig cover" style="background-image: url({{ cover.get('url') }}?imageView2/2/w/1920/interlace/1)"></figure>
 	<div class="mask"></div>
-	<nav>
+	<!-- <nav>
 		<div class="nav-wrapper">
 			<div class="right avatar-actions">
 				<img class="avatar circle" src="http://materializecss.com/images/yuna.jpg"/>
 			</div>
 	    </div>
-	</nav>
+	</nav> -->
 	<div class="container">
 		<div id="sbox" class="search-box">
 			<div class="search-logo">
@@ -30,7 +35,7 @@
 			<div>
 				<form class="search_ix " action="/search" method="get">
 					<div class="search-input-container">
-						<input id="search" name="keyword" value="" placeholder="搜索图片" data-autofocus="">
+						<input id="search" name="q" value="" placeholder="搜索图片" data-autofocus="">
 						<i class="iconfont icon-search"></i>
 					</div>
 				</form>

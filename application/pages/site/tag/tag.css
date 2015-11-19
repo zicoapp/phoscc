@@ -2,6 +2,8 @@
   width: 100%;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+  min-height: 250px;
+  background-color: #f0f0f0;
 }
 #page-tag .panel-tags {
   min-height: 250px;

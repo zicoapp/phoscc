@@ -39,11 +39,30 @@ body {
 }
 .navbar-nav #nav-avatar {
   padding: 10px 15px;
+  cursor: pointer;
 }
 .navbar-nav #nav-avatar .avatar {
   border-radius: 40px;
   width: 30px;
   height: 30px;
+}
+.navbar-nav #nav-avatar .menu-overflow {
+  position: absolute;
+  margin-top: 14px;
+  display: none;
+}
+.navbar-nav #nav-avatar .menu-overflow a {
+  text-decoration: none;
+}
+.navbar-nav #nav-avatar .menu-overflow .iconfont {
+  font-size: 14px;
+  color: white;
+  background: #337ab7;
+  padding: 8px;
+  border-radius: 40px;
+}
+.navbar-nav #nav-avatar:hover .menu-overflow {
+  display: block;
 }
 .navbar .navbar-form {
   margin-top: 10px;
@@ -115,11 +134,23 @@ body {
 .main-content {
   padding-top: 40px;
 }
+.navbar nav li.show-on-mobile {
+  display: none;
+}
+.show-on-pc {
+  display: block;
+}
 @media screen and (max-width: 767px) {
   .navbar .navbar-form {
     width: auto;
   }
   .main-content {
     padding-top: 0;
+  }
+  .show-on-mobile {
+    display: block;
+  }
+  .navbar-nav #nav-avatar:hover .menu-overflow {
+    display: none;
   }
 }
