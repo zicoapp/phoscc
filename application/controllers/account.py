@@ -23,6 +23,7 @@ def signin():
 @VisitorPermission()
 def signup():
     """Signup"""
+    print request.args.get('next')
     form = SignupForm()
     if form.validate_on_submit():
         params = form.data.copy()
@@ -32,7 +33,8 @@ def signup():
         user.set("password", params['password'])
         user.set("email", params['email'])
         user.sign_up()
-        return redirect(url_for('site.index'))
+        signin_user(email=params['email'], password=params['password'])
+        return redirect(request.args.get('next') or url_for('site.index'))
     return render_template('account/signup/signup.html', form=form)
 
 

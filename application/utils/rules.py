@@ -20,8 +20,6 @@ class UserRule(Rule):
         flash('Sign in first.')
         return redirect(url_for('account.signin', next=request.url))
         
-
-
 class AdminRule(Rule):
     def base(self):
         return UserRule()
