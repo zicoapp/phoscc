@@ -25,6 +25,7 @@ jQuery(document).ready(function() {
     // 获取下一组随机照片
     function nextPhotoList(switching) {
         $.getJSON('/_next4tag', {}, function(data) {
+            console.log(data.result);
             var plist = jQuery.parseJSON(data.result);
             comingPhotos = comingPhotos.concat(plist);
             console.log('next group');
@@ -110,6 +111,34 @@ jQuery(document).ready(function() {
     }
 
     $('#submit-tags').click(submittags);
+
+
+    function submitcats() {
+        var cats = []
+        $('input:checkbox').each(function(){
+            if ($(this).attr('role') == 'category' && $(this).is(':checked')) {
+                cats.push($(this).val());
+            }
+        });
+        var $this = $(this).off("click", submitcats);
+        $.ajax({
+            url: '/catit',
+            data: { "photoid": $('#photoid').val(), "cats": cats.toString()},
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                nextPhoto();
+                $this.click(submitcats);
+            },
+            error: function(error) {
+                console.log(error);
+                $this.click(submitcats);
+            }
+        });
+    }
+
+    $('#submit-cats').click(submitcats);
+
         // var tags = $('#tags').val();
 
         // $('#submit-label').addClass('hide');
@@ -132,7 +161,5 @@ jQuery(document).ready(function() {
         //     }
         // });
     // });
-
-	
 
 });

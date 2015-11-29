@@ -3,3 +3,4 @@ from .user import *
 from .photo import *
 from .tag import *
 from .phototag import *
+from .category import *

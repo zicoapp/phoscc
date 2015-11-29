@@ -14,19 +14,23 @@ def signin_user(email, password, permenent=True):
 
 def signout_user():
     """Sign out user."""
-    session.pop('session_token', None)
+    if 'session_token' in session:
+        session.pop('session_token', None)
 
 
 def get_current_user():
     """Get current user."""
     if not 'session_token' in session:
         return None
-    user = User.become(session['session_token'])
-    if not user:
+    try:
+        user = User.become(session['session_token'])
+        if not user:
+            signout_user()
+        return user
+    except Exception, e:
         signout_user()
         return None
-    return user
-
+    
     # user = User.get_current()
     # return user
 

@@ -3,7 +3,7 @@
 
 {% block page_title %}Tag it{% endblock %}
 {% block page_css %}
-	<link rel="stylesheet" href="/pages/site/tag/tag.css"/>
+	<link rel="stylesheet" href="/pages/site/manage/manage.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/css/libs/bootstrap-tagsinput.css">
 {% endblock %}
 {% block page_js %}
@@ -12,10 +12,8 @@
       console.log('{{ coming_photos|safe }}');
       var comingPhotos = jQuery.parseJSON('{{ coming_photos|safe }}');
       var current_photo = comingPhotos.shift();
-      
     </script>
-    <script src="/pages/site/tag/tag.js"></script>
-    <script type="text/javascript" src="/static/js/libs/bootstrap-tagsinput.js"></script>
+    <script src="/pages/site/manage/catit.js"></script>
 {% endblock %}
 
 {% block page_content %}
@@ -38,9 +36,10 @@
     		<div class="col-md-6">
             <div class="panel panel-default panel-tags panel-cats">
                 <div class="panel-heading">
-                    分类<a id="next-photo" class="label-next-photo">换一张</a>
+                    分类
                 </div>
                 <div class="panel-body">
+                  <input id="photoid" type="hidden" name="photoid" value="{{ current_photo.id }}">
                   <div id="cats-list" class="row">
                       {% for cat in categories %}
                           <label class="col-xs-4" style="margin-bottom: 10px">
@@ -48,36 +47,11 @@
                           </label>
                       {% endfor %}
                   </div>
-                  <button style="margin-top: 20px" id="submit-cats" class="btn btn-primary btn-padding">提交</button>
+                  <button style="margin-top: 20px; margin-bottom: 10px;" id="submit-cats" class="btn btn-primary btn-padding">提交</button>
                 </div>
             </div>
-            <div class="panel panel-default panel-tags">
-                <div class="panel-heading">
-                    我来打标签<a id="next-photo" class="label-next-photo">换一张</a>
-                </div>
-                <div class="panel-body">
-                    <input id="photoid" type="hidden" name="photoid" value="{{ current_photo.id }}">
-                    <div id="mytaginput">
-                        <input id="tags" name="tags" class="tagsinput-gen" type="text" value="" data-role="tagsinput">
-                        <ul class="list-form-errors text-danger list-unstyled">
-                            <li>{{ form.tags.errors[0] }}</li>
-                        </ul>
-                    </div>
-                    <div id="submit-tags" class="btn btn-primary btn-padding btn-tags">
-                      <span id="submit-label">提交</span>
-                      <div id="submit-loading" class="spinner hide">
-                          <div class="rect1"></div>
-                          <div class="rect2"></div>
-                          <div class="rect3"></div>
-                          <div class="rect4"></div>
-                          <div class="rect5"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-center">您已累计贡献 <span id="label-contributes-count">{{ utagcount }}</span> 个标签，非常感谢(〃^∇^)o</p>
+            <p class="text-center"><span id="label-categorized-count">{{ alreadyCategorizedCount }}</span> 张图片已完成分类</p>
     		</div>
-            
     	</div>
     </div>
 {% endblock %}

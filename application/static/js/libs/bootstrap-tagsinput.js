@@ -442,14 +442,13 @@
         var textLength = $input.val().length,
             wordSpace = Math.ceil(textLength / 5),
             size = textLength + wordSpace + 1;
+        console.log($input.val() + ": " + $input.val().length);
         $input.attr('size', Math.max(this.inputSize, $input.val().length));
 
       }, self));
 
       self.$container.on('keypress', 'input', $.proxy(function(event) {
          var $input = $(event.target);
-
-         
 
          if (self.$element.attr('disabled')) {
             self.$input.attr('disabled', 'disabled');

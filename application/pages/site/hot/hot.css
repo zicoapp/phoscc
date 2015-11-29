@@ -1,0 +1,9 @@
+.cat-group {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.cat-group .cat {
+  padding-left: 5px;
+  padding-right: 10px;
+  color: #888;
+}

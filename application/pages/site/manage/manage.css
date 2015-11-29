@@ -20,6 +20,9 @@
 #page-tag .panel-tags #submit-loading div {
   width: 4px;
 }
+#page-tag .btn:focus {
+  outline: none;
+}
 .panel-cats .panel-body label {
   font-weight: normal;
 }

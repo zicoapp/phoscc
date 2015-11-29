@@ -5,7 +5,7 @@ from random import randint
 from leancloud import Object, User
 from leancloud import Query, Relation, engine
 from leancloud import LeanCloudError
-from ..models import Photo, Tag, PhotoTag
+from ..models import Photo, Tag, PhotoTag, Category
 from ..utils.permissions import VisitorPermission, UserPermission
 from ..forms import MultiTagForm
 from flask import session
@@ -15,6 +15,7 @@ bp = Blueprint('site', __name__)
 @bp.route('/')
 def index():
     total = Query.do_cloud_query('select count(*) from Photo')
+    print total.count
     try:
         query = Query(Photo).descending('createdAt').skip(randint(0, total.count))
         cover = query.first()
@@ -204,28 +205,102 @@ def tag():
             query = Query(Photo).descending('createdAt').skip(randint(0, total.count)).limit(5)
             results = query.find()
 
-            # response = {}
-            # photolist = []
-            # for item in results:
-            #     photojson = {}
-            #     photojson['id'] = item.id
-            #     photojson['url'] = item.get('url')
-            #     photolist.append(photojson)
-            # response['photos': photolist]
-
             jsonresult = json.dumps([o.dump() for o in results])
 
             query = Relation.reverse_query('PhotoTag', 'contributors', g.user)
             count = query.count()
 
+            categories = Query(Category).find()
             return render_template('site/tag/tag.html', current_photo=results[0],
-                coming_photos=jsonresult, utagcount=count, form=form)
+                coming_photos=jsonresult, utagcount=count, categories=categories, form=form)
         except LeanCloudError, e:
             return redirect(url_for('site.about'))
 
-@bp.route('/hot')
-def hot():
-    return render_template('site/hot/hot.html')
+@bp.route('/cat')
+def cat():
+    photos = Query(Photo).does_not_exists('category').ascending('createdAt').limit(10).find()
+    alreadyCategorizedCount = Query.do_cloud_query('select count(*) from Photo where category != null').count
+    # havenotCategorizedCount = Query.do_cloud_query('select count(*) from Photo where category = null').count
+    # print havenotCategorizedCount
+    jsonresult = json.dumps([o.dump() for o in photos])
+
+    categories = Query(Category).ascending('order').find()
+
+    return render_template('site/manage/catit.html', current_photo=photos[0],
+            coming_photos=jsonresult, categories=categories, alreadyCategorizedCount=alreadyCategorizedCount)
+
+@bp.route('/catit', methods=['POST'])
+def catit():
+    request_cat_ids = request.form['cats'].split(',')
+    photoid = request.form['photoid']
+    
+    photo = Query(Photo).get(photoid)
+    print photo.get('name')
+    cat_relation = photo.relation('category')
+    previousCats = cat_relation.query().find()
+
+    # Remove previous category
+    for cat in previousCats:
+        cat_relation.remove(cat)
+    
+    # Set new category
+    for catid in request_cat_ids:
+        cat = Query(Category).get(catid)
+        print cat.get('name')
+        if cat:
+            cat_relation.add(cat)
+
+    # photo.set('featured', True if (featured == 'true') else False)
+
+    photo.save()
+
+    alreadyCategorizedCount = Query.do_cloud_query('select count(*) from Photo where category != null').count
+    
+    return json.dumps({'status':'OK', 'count': alreadyCategorizedCount, 'photoid': photoid});
+
+
+@bp.route('/_next4cat')
+def next4cat():
+    photos = Query(Photo).does_not_exists('category').ascending('createdAt').limit(10).find()
+
+    if len(photos):
+        jsonresult = json.dumps([o.dump() for o in photos])
+        return jsonify(result=jsonresult)
+    else:
+        return jsonify(result={})
+    
+
+@bp.route('/popular')
+def hot(cat=None):
+    categories = Query(Category).ascending('order').find()
+    
+    cat_name = request.args.get('category')
+    cats = Query(Category).equal_to('name', cat_name).find()
+    cat = None
+    if len(cats):
+        cat = cats[0]
+        query_by_cat = Relation.reverse_query('Photo', 'category', cat)
+        # query_by_feature = Query(Photo).equal_to('featured', True)
+        # main_query = Query.and_(query_by_cat, query_by_feature)
+        photos = query_by_cat.limit(24).find()
+    else:
+        photos = Query(Photo).equal_to('featured', True).descending('createdAt').limit(24).find()
+    return render_template('site/hot/hot.html', 
+        categories=categories, 
+        current_cat=cat,
+        photos=photos)
+
+@bp.route('/_load', methods=['POST'])
+def load():
+    catid = request.form['category']
+    page = int(request.form['page'])
+
+    category = Query(Category).get(catid)
+    query_by_cat = Relation.reverse_query('Photo', 'category', category)
+    photos = query_by_cat.skip((page-1) * 24).limit(24).find()
+
+    jsonresult = json.dumps([o.dump() for o in photos])
+    return jsonify(result=jsonresult)
 
 
 @bp.route('/disclaimer')
