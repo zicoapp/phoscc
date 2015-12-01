@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
                 canload = false;
                 $.ajax({
                     url: '/_load',
-                    data: {"category": $('#id-category-input').val(), "page": currentPage+1},
+                    data: {"url": window.location.href, "category": $('#id-category-input').val(), "page": currentPage+1},
                     type: 'POST',
                     dataType: 'json',
                     success: function(response) {
