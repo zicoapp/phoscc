@@ -135,10 +135,15 @@ jQuery(document).ready(function() {
         });
     }
 
-    $('#submit-cats').click(submitcats);
+    var $input = $(".bootstrap-tagsinput :input");
 
-    $('<div class="bootstrap-tagsinput"></div>').keydown(function() {
-        alert("Handler for keydown");
+    $input.keypress(function(event){
+        if(event.keyCode == 13){
+            $input.blur();
+            $("#submit-tags").focus();
+            $("#submit-tags").click();
+            $input.focus();
+        }
     });
 
         // var tags = $('#tags').val();
