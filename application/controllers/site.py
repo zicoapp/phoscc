@@ -217,6 +217,7 @@ def tag():
             return redirect(url_for('site.about'))
 
 @bp.route('/cat')
+@UserPermission()
 def cat():
     photos = Query(Photo).does_not_exists('category').ascending('createdAt').limit(10).find()
     alreadyCategorizedCount = Query.do_cloud_query('select count(*) from Photo where category != null').count
