@@ -74,8 +74,13 @@ nav .avatar_wrapper {
   height: 45px;
   line-height: 45px;
   padding: 0 45px 0px 15px;
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 2px;
+  box-shadow: none;
+  outline: none;
+}
+#sbox input#search-box:focus {
+  border: 1px solid #2F9BFE;
 }
 #sbox .search-wrapper {
   margin: 0 12px;
