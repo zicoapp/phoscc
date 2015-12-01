@@ -293,8 +293,8 @@ def hot(cat=None):
 @bp.route('/_load', methods=['POST'])
 def load():
     page = int(request.form['page'])
-    catid = request.form['category']
-    if catid:
+    if 'category' in category:
+        catid = request.form['category']
         category = Query(Category).get(catid)
         query_by_cat = Relation.reverse_query('Photo', 'category', category)
         photos = query_by_cat.skip((page-1) * 24).limit(24).find()

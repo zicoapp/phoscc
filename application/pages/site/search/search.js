@@ -59,8 +59,7 @@ jQuery(document).ready(function() {
                     },
                     error: function(error) {
                         console.log(error);
-                        $this.click(submitcats);
-                        loading = false;
+                        canload = false;
                     }
                 });
             }
