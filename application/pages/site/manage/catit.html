@@ -1,7 +1,7 @@
 {% extends "_include/base.html" %}
 {% from '_form.html' import vertical_field %}
 
-{% block page_title %}Tag it{% endblock %}
+{% block page_title %}分类{% endblock %}
 {% block page_css %}
 	<link rel="stylesheet" href="/pages/site/manage/manage.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/css/libs/bootstrap-tagsinput.css">
@@ -47,7 +47,7 @@
                           </label>
                       {% endfor %}
                   </div>
-                  <button style="margin-top: 20px; margin-bottom: 10px;" id="submit-cats" class="btn btn-primary btn-padding">提交</button>
+                  <button style="margin-top: 20px; margin-bottom: 10px;" id="submit-cats" class="btn btn-primary btn-padding btn-tags">提交</button>
                 </div>
             </div>
             <p class="text-center"><span id="label-categorized-count">{{ alreadyCategorizedCount }}</span> 张图片已完成分类</p>

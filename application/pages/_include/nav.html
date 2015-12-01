@@ -40,6 +40,11 @@
             </li>
 
             {% if g.user %}
+                {% if g.user.get('isAdmin') %}
+                    <li id="nav-about">
+                        <a href="{{ url_for('site.cat') }}">分类</a>
+                    </li>
+                {% endif %}
             <li id="nav-settings">
                 <a href="#">{{ g.user.get('username') }}</a>
             </li>

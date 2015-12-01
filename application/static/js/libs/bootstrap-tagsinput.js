@@ -18,7 +18,7 @@
     addOnBlur: true,
     maxTags: undefined,
     maxChars: undefined,
-    confirmKeys: [13, 44, 9, 188],
+    confirmKeys: [32, 44, 9, 188],
     delimiter: ',',
     delimiterRegex: null,
     cancelConfirmKeysOnEmpty: false,
@@ -43,7 +43,7 @@
     this.multiple = (this.isSelect && element.hasAttribute('multiple'));
     this.objectItems = options && options.itemValue;
     this.placeholderText = element.hasAttribute('placeholder') ? this.$element.attr('placeholder') : '';
-    this.inputSize = Math.max(1, this.placeholderText.length);
+    // this.inputSize = Math.max(1, this.placeholderText.length);
 
     this.$container = $('<div class="bootstrap-tagsinput"></div>');
     this.$input = $('<input type="text" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
@@ -382,7 +382,7 @@
 
       self.$container.on('keydown', 'input', $.proxy(function(event) {
         var $input = $(event.target),
-            $inputWrapper = self.findInputWrapper();
+        $inputWrapper = self.findInputWrapper();
 
         if (self.$element.attr('disabled')) {
           self.$input.attr('disabled', 'disabled');
@@ -442,10 +442,19 @@
         var textLength = $input.val().length,
             wordSpace = Math.ceil(textLength / 5),
             size = textLength + wordSpace + 1;
-        console.log($input.val() + ": " + $input.val().length);
-        $input.attr('size', Math.max(this.inputSize, $input.val().length));
+        // $input.attr('size', Math.max(this.inputSize, $input.val().length));
 
       }, self));
+
+      self.$container.on('keyup', 'input', $.proxy(function(event) {
+          var $input = $(event.target);
+          var text = $.trim($input.val());
+          if (text.indexOf("，") != -1) {
+            $input.val(text.replace("，", ""));
+            $input.blur();
+            $input.focus();
+          }
+      }));
 
       self.$container.on('keypress', 'input', $.proxy(function(event) {
          var $input = $(event.target);
@@ -455,8 +464,8 @@
             return;
          }
 
-         var text = $input.val(),
-         maxLengthReached = self.options.maxChars && text.length >= self.options.maxChars;
+         var text = $input.val();
+         var maxLengthReached = self.options.maxChars && text.length >= self.options.maxChars;
          if (self.options.freeInput && (keyCombinationInList(event, self.options.confirmKeys) || maxLengthReached)) {
 
             // Only attempt to add a tag if there is data in the field
@@ -478,7 +487,7 @@
          var textLength = $input.val().length,
             wordSpace = Math.ceil(textLength / 5),
             size = textLength + wordSpace + 1;
-         $input.attr('size', Math.max(this.inputSize, $input.val().length));
+         // $input.attr('size', Math.max(this.inputSize, $input.val().length));
 
       }, self));
 

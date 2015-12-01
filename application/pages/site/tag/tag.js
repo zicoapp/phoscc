@@ -87,8 +87,6 @@ jQuery(document).ready(function() {
     function submittags() {
         var tags = $('#tags').val();
 
-        // $('#submit-label').addClass('hide');
-        // $('#submit-loading').removeClass('hide');
         $('.overlay').removeClass('hide');
         
         var $this = $(this).off("click", submittags);
@@ -138,6 +136,10 @@ jQuery(document).ready(function() {
     }
 
     $('#submit-cats').click(submitcats);
+
+    $('<div class="bootstrap-tagsinput"></div>').keydown(function() {
+        alert("Handler for keydown");
+    });
 
         // var tags = $('#tags').val();
 
